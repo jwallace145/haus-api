@@ -5,6 +5,7 @@ from flask import Blueprint, redirect, request, session
 from flask_login import current_user, login_required
 from models.track.track import Track
 from spotify_requests import spotify
+from models.playlist.playlist import Playlist
 
 spotify_blueprint = Blueprint('spotify_blueprint', __name__)
 
@@ -36,10 +37,15 @@ def playlists():
 
         resp = []
         for playlist in playlists['items']:
-            resp.append({
-                'playlist_id': playlist['id'],
-                'playlist_name': playlist['name']
-            })
+            new_playlist = Playlist(
+                name=playlist['name'],
+                spotify_id=playlist['id'],
+                cover_url=playlist['images'][0]['url']
+            )
+
+            resp.append(new_playlist.to_dict())
+            db.session.add(new_playlist)
+        db.session.commit()
 
         return {'playlists': resp}
 
