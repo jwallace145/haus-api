@@ -107,8 +107,8 @@ def get_users_playlists(auth_header):
     return resp.json()
 
 
-def get_playlist_tracks(auth_header, track_id):
-    url = SPOTIFY_API_URL + f'/playlists/{track_id}/tracks'
+def get_playlist_tracks(auth_header, playlist_id):
+    url = SPOTIFY_API_URL + f'/playlists/{playlist_id}/tracks'
     resp = requests.get(url, headers=auth_header)
     return resp.json()
 
