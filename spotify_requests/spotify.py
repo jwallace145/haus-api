@@ -110,6 +110,7 @@ def get_users_playlists(auth_header):
 def get_playlist_tracks(auth_header, playlist_id):
     url = SPOTIFY_API_URL + f'/playlists/{playlist_id}/tracks'
     resp = requests.get(url, headers=auth_header)
+    print(resp)
     return resp.json()
 
 

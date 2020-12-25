@@ -6,5 +6,6 @@ UsersTracks = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey(
         'users.id', ondelete='cascade')),
     db.Column('track_id', db.Integer, db.ForeignKey(
-        'tracks.id', ondelete='cascade'))
+        'tracks.id', ondelete='cascade')),
+    db.Column('rating', db.Integer, nullable=False, default=5)
 )

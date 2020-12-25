@@ -3,12 +3,15 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
+import click
 from auth import login_manager
 from database import db
 from routes.auth.auth import auth_blueprint
 from routes.spotify.spotify import spotify_blueprint
 from routes.tracks.tracks import tracks_blueprint
 from routes.users.users import users_blueprint
+from routes.playlists.playlists import playlists_blueprint
+from flask.cli import with_appcontext
 
 
 def create_app():
@@ -31,10 +34,12 @@ def create_app():
     app.register_blueprint(spotify_blueprint, url_prefix='/spotify')
     app.register_blueprint(users_blueprint, url_prefix='/users')
     app.register_blueprint(tracks_blueprint, url_prefix='/tracks')
+    app.register_blueprint(playlists_blueprint, url_prefix='/playlists')
 
     return app
 
 
 if __name__ == '__main__':
     app = create_app()
+
     app.run()

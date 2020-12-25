@@ -80,8 +80,8 @@ def get_playlist_tracks(playlist_id):
         return {'yup': True}
 
 
-@ spotify_blueprint.route('/tracks', methods=['GET'])
-@ login_required
+@spotify_blueprint.route('/tracks', methods=['GET'])
+@login_required
 def tracks():
     if 'auth_header' in session:
         auth_header = session['auth_header']
@@ -104,3 +104,59 @@ def tracks():
             db.session.commit()
 
     return {'successful': True}
+
+
+@spotify_blueprint.route('/ingest', methods=['GET'])
+@login_required
+def ingest_spotify_data():
+    if 'auth_header' in session:
+        auth_header = session['auth_header']
+
+        user = current_user
+
+        playlists = spotify.get_users_playlists(auth_header)
+
+        # create playlist and store in db
+        new_playlists = []
+        for playlist in playlists['items']:
+            new_playlist = Playlist(
+                user=user,
+                name=playlist['name'],
+                spotify_id=playlist['id'],
+                cover_url=playlist['images'][0]['url']
+            )
+
+            if not db.session.query(Playlist).filter_by(spotify_id=new_playlist.spotify_id).first():
+                new_playlists.append(new_playlist)
+                db.session.add(new_playlist)
+        db.session.commit()
+
+        # get tracks by playlist id and store them in db (associate with playlist)
+        new_tracks = []
+        for playlist in new_playlists:
+            tracks = spotify.get_playlist_tracks(
+                auth_header, playlist.spotify_id)
+
+            # get playlist from haus db
+            haus_playlist = db.session.query(Playlist).filter_by(
+                spotify_id=playlist.spotify_id).first()
+
+            for track in tracks['items']:
+                new_track = Track(
+                    title=track['track']['name'],
+                    cover_url=track['track']['album']['images'][0]['url']
+                )
+
+                if not db.session.query(Track).filter_by(title=track['track']['name']).first():
+                    new_tracks.append(new_track)
+                    user.tracks.append(new_track)
+                    haus_playlist.tracks.append(new_track)
+        db.session.commit()
+
+        return {
+            'successful': True,
+            'playlists': [playlist.to_dict() for playlist in new_playlists],
+            'tracks': [track.to_dict() for track in new_tracks]
+        }
+    else:
+        return {'succesful': False}

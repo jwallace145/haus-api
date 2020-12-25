@@ -45,6 +45,11 @@ def register():
 
     user = db.session.query(User).filter_by(username=username).first()
 
+    user.authenticated = True
+    db.session.commit()
+
+    login_user(user)
+
     return {
         'register': True,
         'user': user.to_dict()
@@ -73,8 +78,7 @@ def login():
         }
     else:
         return {
-            'login': False,
-            'user': user.to_dict()
+            'login': False
         }
 
 
