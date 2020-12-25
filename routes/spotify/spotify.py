@@ -44,7 +44,9 @@ def playlists():
             )
 
             resp.append(new_playlist.to_dict())
-            db.session.add(new_playlist)
+
+            if not db.session.query(Playlist).filter_by(spotify_id=playlist['id']).first():
+                db.session.add(new_playlist)
         db.session.commit()
 
         return {'playlists': resp}
@@ -66,7 +68,8 @@ def get_playlist_tracks(playlist_id):
                 cover_url=track['track']['album']['images'][0]['url']
             )
 
-            user.tracks.append(new_track)
+            if not db.session.query(Track).filter_by(title=track['track']['name']).first():
+                user.tracks.append(new_track)
         db.session.commit()
 
         tracks = db.session.query(Track).filter(
