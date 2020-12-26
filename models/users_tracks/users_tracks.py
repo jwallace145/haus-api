@@ -1,4 +1,4 @@
-from database import db
+from services.database import db
 
 UsersTracks = db.Table(
     'users_tracks',

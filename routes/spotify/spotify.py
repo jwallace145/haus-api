@@ -1,11 +1,10 @@
-from models.users_tracks.users_tracks import UsersTracks
-import requests
-from database import db
 from flask import Blueprint, redirect, request, session
 from flask_login import current_user, login_required
-from models.track.track import Track
-from spotify_requests import spotify
 from models.playlist.playlist import Playlist
+from models.track.track import Track
+from models.users_tracks.users_tracks import UsersTracks
+from services.database import db
+from spotify_requests import spotify
 
 spotify_blueprint = Blueprint('spotify_blueprint', __name__)
 

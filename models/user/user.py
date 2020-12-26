@@ -1,10 +1,9 @@
 import datetime as dt
 
-from sqlalchemy.orm import backref
-
-from database import db
 from flask_login import UserMixin
 from models.users_tracks.users_tracks import UsersTracks
+from services.database import db
+from sqlalchemy.orm import backref
 from sqlalchemy_serializer import SerializerMixin
 
 

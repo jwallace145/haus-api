@@ -1,11 +1,11 @@
 import os
 
 import bcrypt
-from clients import s3_client
-from database import db
 from flask import Blueprint, request, session
 from flask_login import current_user, login_required, login_user, logout_user
 from models.user.user import User
+from services.clients import s3_client
+from services.database import db
 from werkzeug.utils import secure_filename
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)

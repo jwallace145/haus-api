@@ -3,9 +3,9 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-import click
-from auth import login_manager
-from database import db
+from services.auth import login_manager
+from services.database import db
+from services.database import init_db
 from routes.auth.auth import auth_blueprint
 from routes.spotify.spotify import spotify_blueprint
 from routes.tracks.tracks import tracks_blueprint
@@ -25,6 +25,7 @@ def create_app():
 
     # initialize db
     db.init_app(app)
+    init_db(app)
 
     # initialize login manager
     login_manager.init_app(app)

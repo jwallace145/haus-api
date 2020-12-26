@@ -1,4 +1,4 @@
-from database import db
+from services.database import db
 from flask import Blueprint
 from flask.globals import request
 from flask_login import current_user

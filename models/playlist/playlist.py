@@ -1,4 +1,4 @@
-from database import db
+from services.database import db
 from flask_login.mixins import UserMixin
 from sqlalchemy_serializer.serializer import SerializerMixin
 from models.playlists_tracks.playlists_tracks import PlaylistsTracks

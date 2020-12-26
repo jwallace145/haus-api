@@ -1,6 +1,6 @@
-from database import db
 from flask import Blueprint
 from models.playlist.playlist import Playlist
+from services.database import db
 
 playlists_blueprint = Blueprint('playlists_blueprint', __name__)
 
