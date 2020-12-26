@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from models.playlist.playlist import Playlist
 from models.track.track import Track
 from models.user.user import User
-from models.users_tracks.users_tracks import UsersTracks
+from models.track_rating.track_rating import UsersTracks
 from services.database import db
 
 users_blueprint = Blueprint('users_blueprint', __name__)
@@ -40,10 +40,10 @@ def get_songs():
         Track.id,
         Track.title,
         Track.cover_url,
-        UsersTracks.c.rating
+        UsersTracks.rating
     ).filter(
-        Track.id == UsersTracks.c.track_id,
-        UsersTracks.c.user_id == user.id
+        Track.id == UsersTracks.track_id,
+        UsersTracks.user_id == user.id
     )
 
     resp = []

@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, request, session
 from flask_login import current_user, login_required
 from models.playlist.playlist import Playlist
 from models.track.track import Track
-from models.users_tracks.users_tracks import UsersTracks
+from models.track_rating.track_rating import UsersTracks
 from services.database import db
 from spotify_requests import spotify
 

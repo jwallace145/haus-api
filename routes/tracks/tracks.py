@@ -4,7 +4,7 @@ from flask.globals import request
 from flask_login import current_user
 from flask_login.utils import login_required
 from models.track.track import Track
-from models.users_tracks.users_tracks import UsersTracks
+from models.track_rating.track_rating import UsersTracks
 from routes.spotify.spotify import tracks
 
 tracks_blueprint = Blueprint('tracks_blueprint', __name__)
