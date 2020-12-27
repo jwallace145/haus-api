@@ -5,15 +5,22 @@ from models.track.track import Track
 from models.user.user import User
 from models.track_rating.track_rating import UsersTracks
 from services.database import db
+from flask_login import AnonymousUserMixin
 
 users_blueprint = Blueprint('users_blueprint', __name__)
 
 
 @users_blueprint.route('/current', methods=['GET'])
-@login_required
 def get_user():
     user = current_user
-    return {'user': user.to_dict()}
+
+    if user.is_authenticated:
+        return {
+            'exists': True,
+            'user': user.to_dict()
+        }
+    else:
+        return {'exists': False}
 
 
 @users_blueprint.route('/edit', methods=['GET'])
