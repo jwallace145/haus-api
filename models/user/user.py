@@ -2,6 +2,7 @@ import datetime as dt
 
 from flask_login import UserMixin
 from models.track_rating.track_rating import UsersTracks
+from models.track.track import Track
 from services.database import db
 from sqlalchemy.orm import backref
 from sqlalchemy_serializer import SerializerMixin
@@ -34,8 +35,8 @@ class User(db.Model, UserMixin, SerializerMixin):
     avatar_url = db.Column(db.String, nullable=False,
                            default='default avatar url')
 
-    tracks = db.relationship('UsersTracks')
-    playlists = db.relationship('Playlist', backref='users')
+    tracks = db.relationship('UsersTracks', back_populates='user')
+    playlists = db.relationship('Playlist')
 
     def __init__(self, email, username, password):
         self.email = email

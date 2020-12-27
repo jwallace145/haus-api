@@ -20,12 +20,10 @@ class Playlist(db.Model, UserMixin, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     cover_url = db.Column(db.String, nullable=False)
 
-    user = db.relationship('User')
     tracks = db.relationship(
         'Track', secondary=PlaylistsTracks, backref='playlists', cascade='all,delete')
 
-    def __init__(self, user, name, spotify_id, cover_url):
-        self.user = user
+    def __init__(self, name, spotify_id, cover_url):
         self.name = name
         self.spotify_id = spotify_id
         self.cover_url = cover_url

@@ -29,8 +29,6 @@ def edit_user():
             'user': 'does not exist'
         }
 
-    return {'successful': True}
-
 
 @users_blueprint.route('/tracks', methods=['GET'])
 @login_required

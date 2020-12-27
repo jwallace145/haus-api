@@ -119,7 +119,6 @@ def ingest_spotify_data():
         new_playlists = []
         for playlist in playlists['items']:
             new_playlist = Playlist(
-                user=user,
                 name=playlist['name'],
                 spotify_id=playlist['id'],
                 cover_url=playlist['images'][0]['url']
@@ -127,6 +126,7 @@ def ingest_spotify_data():
 
             if not db.session.query(Playlist).filter_by(spotify_id=new_playlist.spotify_id).first():
                 new_playlists.append(new_playlist)
+                user.playlists.append(new_playlist)
                 db.session.add(new_playlist)
         db.session.commit()
 
@@ -148,7 +148,9 @@ def ingest_spotify_data():
 
                 if not db.session.query(Track).filter_by(title=track['track']['name']).first():
                     new_tracks.append(new_track)
-                    user.tracks.append(new_track)
+                    a = UsersTracks(rating=5)
+                    a.track = new_track
+                    user.tracks.append(a)
                     haus_playlist.tracks.append(new_track)
         db.session.commit()
 

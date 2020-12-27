@@ -18,4 +18,4 @@ class UsersTracks(db.Model, SerializerMixin):
     rating = db.Column(db.Integer, nullable=False, default=5)
 
     user = db.relationship('User', back_populates='tracks')
-    track = db.relationship('Track')
+    track = db.relationship('Track', back_populates='users')
